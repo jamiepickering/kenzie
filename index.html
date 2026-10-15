@@ -1,0 +1,794 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Root &amp; Retort</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Almendra:wght@400;700&family=DM+Mono:wght@400;500&family=IM+Fell+English:ital@0;1&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: a night-garden spread. Moonlit beds on the left, the witch's bench (cauldron, crossing frame, satchel, stall) on the right; stacks on phones. Single dark look by design. */
+:root {
+  color-scheme: dark;
+  --bg: #0F0A1C;
+  --surface: #1B1230;
+  --surface-hi: #251A42;
+  --plate: #0B1222;
+  --ink: #EFE8FA;
+  --ink-soft: #B2A6CE;
+  --line: #3B2D63;
+  --line-hi: #6C55B0;
+  --action: #6FE3A6;
+  --on-action: #07140D;
+  --tincture: #B79BFF;
+  --gold: #F3CB72;
+  --soil: #4A343F;
+  --seed: #E8D2A2;
+  --stem: #45C98A;
+  --stalk: #D9D3E8;
+  --brew: #7CF0B2;
+  --display: 'Almendra', 'IM Fell English', Georgia, serif;
+  --fell: 'IM Fell English', Georgia, 'Times New Roman', serif;
+  --sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'DM Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+::selection { background: rgba(183, 155, 255, .4); }
+body {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(1100px 700px at 82% -10%, rgba(92, 52, 170, .42), transparent 62%),
+    radial-gradient(900px 620px at 4% 108%, rgba(20, 98, 84, .32), transparent 62%);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.45;
+  padding-block: 26px 90px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+/* two drifting star layers sit behind everything */
+body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: -1; background-repeat: no-repeat; }
+body::before {
+  background-image:
+    radial-gradient(1.4px 1.4px at 6% 12%, #fff 55%, transparent 60%), radial-gradient(1px 1px at 14% 64%, #fff 55%, transparent 60%),
+    radial-gradient(1.6px 1.6px at 23% 31%, #dcd0ff 55%, transparent 60%), radial-gradient(1px 1px at 31% 82%, #fff 55%, transparent 60%),
+    radial-gradient(1.3px 1.3px at 42% 8%, #fff 55%, transparent 60%), radial-gradient(1px 1px at 49% 47%, #dcd0ff 55%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 58% 73%, #fff 55%, transparent 60%), radial-gradient(1px 1px at 66% 22%, #fff 55%, transparent 60%),
+    radial-gradient(1.4px 1.4px at 74% 58%, #dcd0ff 55%, transparent 60%), radial-gradient(1px 1px at 83% 88%, #fff 55%, transparent 60%),
+    radial-gradient(1.6px 1.6px at 91% 36%, #fff 55%, transparent 60%), radial-gradient(1px 1px at 96% 70%, #dcd0ff 55%, transparent 60%);
+  opacity: .75; animation: twinkle 7s ease-in-out infinite alternate;
+}
+body::after {
+  background-image:
+    radial-gradient(1.2px 1.2px at 10% 40%, #ffe9a8 55%, transparent 60%), radial-gradient(1.5px 1.5px at 19% 92%, #ffe9a8 55%, transparent 60%),
+    radial-gradient(1px 1px at 37% 24%, #ffe9a8 55%, transparent 60%), radial-gradient(1.3px 1.3px at 54% 90%, #ffe9a8 55%, transparent 60%),
+    radial-gradient(1.2px 1.2px at 69% 10%, #ffe9a8 55%, transparent 60%), radial-gradient(1px 1px at 79% 40%, #ffe9a8 55%, transparent 60%),
+    radial-gradient(1.4px 1.4px at 88% 62%, #ffe9a8 55%, transparent 60%), radial-gradient(1px 1px at 3% 78%, #ffe9a8 55%, transparent 60%);
+  opacity: .35; animation: twinkle 5s ease-in-out 1.5s infinite alternate-reverse;
+}
+@keyframes twinkle { to { opacity: .12; } }
+
+.wrap { max-width: 1120px; margin: 0 auto; position: relative; }
+button { font: inherit; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-soft); margin: 0; }
+
+header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 18px 32px; margin-bottom: 30px; }
+header > * { min-width: 0; }
+.brand { display: flex; align-items: center; gap: 18px; }
+.brand > div { min-width: 0; }
+.moon { width: clamp(64px, 14vw, 96px); height: auto; flex: none; overflow: visible; filter: drop-shadow(0 0 14px rgba(243, 203, 114, .55)); }
+.eyebrow { font: 500 11px var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 0 0 6px; opacity: .9; }
+h1 { font: 700 clamp(2.4rem, 8vw, 3.9rem)/1 var(--display); letter-spacing: .005em; margin: 0 0 10px; text-wrap: balance; color: var(--ink); text-shadow: 0 0 28px rgba(183, 155, 255, .6), 0 0 3px rgba(255, 255, 255, .25); }
+h1 .amp { color: var(--gold); text-shadow: 0 0 22px rgba(243, 203, 114, .6); }
+.lede { max-width: 54ch; margin: 0; color: var(--ink-soft); }
+.purse { display: flex; align-items: center; gap: 9px; border: 1px solid var(--gold); background: rgba(12, 8, 24, .7); padding: 9px 16px; border-radius: 99px; box-shadow: 0 0 20px -6px rgba(243, 203, 114, .6), inset 0 0 12px rgba(243, 203, 114, .08); }
+.purse .num { font-size: 1.5rem; color: var(--gold); font-weight: 500; text-shadow: 0 0 12px rgba(243, 203, 114, .5); }
+.purse .lbl { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.coin { width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #fff2c2, var(--gold) 55%, #b98a2e); box-shadow: 0 0 8px rgba(243, 203, 114, .8); }
+
+.board { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 34px; align-items: start; }
+@media (max-width: 900px) { .board { grid-template-columns: minmax(0, 1fr); } }
+.bench { display: flex; flex-direction: column; gap: 30px; min-width: 0; }
+section { min-width: 0; }
+h2 { display: flex; align-items: center; gap: 12px; font: 400 1.75rem/1.15 var(--display); margin: 0 0 14px; color: var(--gold); text-shadow: 0 0 18px rgba(243, 203, 114, .35); }
+h2::before { content: ""; width: 15px; height: 15px; flex: none; filter: drop-shadow(0 0 5px rgba(243, 203, 114, .8));
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z' fill='%23F3CB72'/%3E%3C/svg%3E") center / contain no-repeat; }
+h2::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-hi), transparent); }
+
+.beds { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 16px; }
+.bed { position: relative; background: linear-gradient(180deg, var(--surface-hi), var(--surface)); border: 1px solid var(--line); border-radius: 6px; padding: 13px; display: flex; flex-direction: column; gap: 9px; min-width: 0;
+  box-shadow: 0 12px 28px -14px rgba(0, 0, 0, .8), inset 0 1px 0 rgba(183, 155, 255, .12); }
+.bed::before, .bed::after { content: ""; position: absolute; width: 11px; height: 11px; border: 1px solid var(--gold); opacity: .65; pointer-events: none; }
+.bed::before { top: 5px; left: 5px; border-right: 0; border-bottom: 0; border-top-left-radius: 3px; }
+.bed::after { bottom: 5px; right: 5px; border-left: 0; border-top: 0; border-bottom-right-radius: 3px; }
+.bed.empty, .bed.locked { background: rgba(20, 12, 38, .55); border-style: dashed; border-color: var(--line-hi); justify-content: space-between; min-height: 260px; }
+.bed-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.plate { font: 500 11px var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.chip { font: 500 11px var(--mono); padding: 2px 9px; border: 1px solid var(--line-hi); border-radius: 99px; color: var(--tincture); background: rgba(183, 155, 255, .1); white-space: nowrap; }
+.chip.ripe { color: var(--action); border-color: var(--action); background: rgba(111, 227, 166, .13); box-shadow: 0 0 12px -2px rgba(111, 227, 166, .7); }
+
+.art { position: relative; overflow: hidden; border-radius: 4px; border: 1px solid var(--line);
+  background:
+    radial-gradient(90% 55% at 50% 105%, rgba(32, 120, 96, .5), transparent 70%),
+    radial-gradient(60% 45% at 82% 14%, rgba(120, 84, 220, .3), transparent 70%),
+    var(--plate); }
+.art::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(1.2px 1.2px at 14% 20%, #fff 55%, transparent 60%), radial-gradient(1px 1px at 30% 8%, #dcd0ff 55%, transparent 60%),
+    radial-gradient(1.4px 1.4px at 70% 16%, #fff 55%, transparent 60%), radial-gradient(1px 1px at 90% 34%, #dcd0ff 55%, transparent 60%);
+  opacity: .7; }
+.art svg { position: relative; display: block; width: 100%; height: 128px; }
+.art.is-boost { border-color: var(--tincture); box-shadow: 0 0 18px -3px rgba(183, 155, 255, .65), inset 0 0 22px rgba(183, 155, 255, .2); }
+.art.is-boost::after { content: ""; position: absolute; left: 14%; bottom: 6px; width: 3px; height: 3px; border-radius: 50%; background: var(--tincture);
+  box-shadow: 26px -8px 0 var(--tincture), 52px -2px 0 #fff, 78px -12px 0 var(--tincture), 100px -4px 0 #fff; animation: sparkle 2.4s linear infinite; }
+@keyframes sparkle { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-110px); opacity: 0; } }
+.art.is-ripe { border-color: var(--action); animation: breathe 3.2s ease-in-out infinite; }
+.art.is-ripe svg { filter: drop-shadow(0 0 7px rgba(255, 255, 255, .4)); }
+@keyframes breathe {
+  0%, 100% { box-shadow: 0 0 14px -4px rgba(111, 227, 166, .5), inset 0 0 16px rgba(111, 227, 166, .12); }
+  50% { box-shadow: 0 0 26px -2px rgba(111, 227, 166, .8), inset 0 0 26px rgba(111, 227, 166, .26); }
+}
+.empty .art svg, .locked .art svg { height: 92px; }
+
+.name { font: 400 1.18rem/1.2 var(--fell); color: var(--ink); }
+.latin { font: italic 400 .86rem var(--fell); color: var(--ink-soft); }
+.rule { position: relative; height: 10px; border: 1px solid var(--line-hi); border-radius: 99px; overflow: hidden; background: rgba(0, 0, 0, .4); }
+.rule i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--stem), var(--tincture)); box-shadow: 0 0 12px var(--tincture); border-radius: 99px; }
+.rule::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(var(--gold), var(--gold)) 20% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--gold), var(--gold)) 50% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--gold), var(--gold)) 80% 0 / 1px 100% no-repeat; opacity: .4; }
+.time { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.time small { font: 400 11px var(--mono); color: var(--ink-soft); }
+.boost { font: 500 11px var(--mono); color: var(--tincture); display: flex; align-items: center; gap: 7px; }
+.boost::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--tincture); box-shadow: 0 0 8px var(--tincture); animation: pulse 1.8s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .3; } }
+
+.actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.btn { min-height: 36px; padding: 7px 14px; background: rgba(183, 155, 255, .08); color: var(--ink); border: 1px solid var(--line-hi); border-radius: 4px; font-weight: 600; font-size: 13px; letter-spacing: .02em; cursor: pointer; transition: background .2s, border-color .2s, box-shadow .2s; }
+.btn:hover:not([disabled]) { background: rgba(183, 155, 255, .2); border-color: var(--tincture); box-shadow: 0 0 16px -3px var(--tincture); }
+.btn.primary { background: linear-gradient(180deg, #92F2C0, #49C98A); color: var(--on-action); border-color: #92F2C0; box-shadow: 0 0 16px -5px var(--action); }
+.btn.primary:hover:not([disabled]) { background: linear-gradient(180deg, #AAFAD0, #5AD99B); border-color: #AAFAD0; box-shadow: 0 0 24px -2px var(--action); }
+.btn.potion { color: var(--tincture); border-color: var(--tincture); }
+.btn.small { min-height: 30px; padding: 4px 10px; font-size: 12px; }
+.btn[disabled] { opacity: .4; cursor: not-allowed; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.menu { display: flex; flex-direction: column; gap: 6px; border-top: 1px dashed var(--line-hi); padding-top: 10px; }
+.menu .btn { text-align: left; display: flex; justify-content: space-between; gap: 8px; }
+.menu small { font: 400 11px var(--mono); opacity: .85; }
+.menu p { font-size: 13px; }
+
+.panel { position: relative; background: linear-gradient(180deg, var(--surface-hi), var(--surface)); border: 1px solid var(--line); border-radius: 6px; padding: 4px 16px;
+  box-shadow: 0 14px 34px -16px rgba(0, 0, 0, .85), inset 0 1px 0 rgba(183, 155, 255, .12); }
+.row { display: flex; justify-content: space-between; align-items: center; gap: 8px 12px; flex-wrap: wrap; padding: 12px 0; border-top: 1px solid rgba(108, 85, 176, .35); }
+.row:first-child { border-top: 0; }
+.row > div { min-width: 0; }
+.row .grow { flex: 1 1 150px; }
+.row .actions { flex: 0 0 auto; }
+.sub { font: 500 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--gold); padding: 14px 0 0; margin: 0; opacity: .9; }
+.sub + .row { border-top: 0; }
+.fx { font-size: 13px; color: var(--ink-soft); }
+.ings { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.ing { font: 400 12px var(--mono); padding: 1px 8px; border-radius: 99px; border: 1px solid var(--line-hi); color: var(--ink-soft); }
+.ing.ok { color: var(--action); border-color: rgba(111, 227, 166, .65); background: rgba(111, 227, 166, .08); }
+.ing small { opacity: .8; }
+
+.cauldron { display: flex; align-items: center; gap: 16px; padding: 14px 0; }
+.cauldron > svg { width: 98px; height: 86px; flex: none; overflow: visible; }
+.cauldron > div { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.brewing > svg { filter: drop-shadow(0 0 12px rgba(124, 240, 178, .4)); }
+.bubble { fill: var(--brew); opacity: 0; }
+.flame, .steam { opacity: 0; }
+.flame { transform-box: fill-box; transform-origin: 50% 100%; }
+.brewing .bubble { animation: rise 2.4s ease-in infinite; }
+.brewing .b2 { animation-delay: .8s; }
+.brewing .b3 { animation-delay: 1.5s; }
+.brewing .flame { opacity: 1; animation: flick .5s ease-in-out infinite alternate; }
+.brewing .steam { animation: steam 3s ease-in infinite; }
+.brewing .s2 { animation-delay: 1s; }
+.brewing .s3 { animation-delay: 2s; }
+@keyframes rise { 0% { transform: translateY(0); opacity: .9; } 100% { transform: translateY(-14px); opacity: 0; } }
+@keyframes flick { to { transform: scale(1.08, .88); } }
+@keyframes steam { 0% { transform: translateY(6px); opacity: 0; } 25% { opacity: .75; } 100% { transform: translateY(-12px); opacity: 0; } }
+
+.cross { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; padding: 14px 0 12px; }
+.fld { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.sel { font: inherit; font-size: 14px; min-height: 38px; width: 100%; min-width: 0; padding: 6px 8px; background: #120B22; color: var(--ink); border: 1px solid var(--line-hi); border-radius: 4px; }
+.cross-state { display: flex; flex-direction: column; gap: 8px; padding: 14px 0; }
+
+footer { margin-top: 44px; display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; color: var(--ink-soft); font-size: 13px; }
+footer p { margin: 0; }
+.warn { color: var(--gold); }
+
+.toast { position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; pointer-events: none;
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(14px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.toast p { margin: 0; background: #120B22; color: var(--ink); border: 1px solid var(--gold); padding: 10px 18px; border-radius: 99px; font-size: 14px; max-width: 100%;
+  box-shadow: 0 0 26px -4px rgba(243, 203, 114, .5); opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; }
+.toast p.show { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <svg class="moon" viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M58 8 A42 42 0 1 0 58 92 A33 33 0 1 1 58 8 Z" fill="#F3CB72"/>
+        <path d="M86 18 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" fill="#FFF2C2"/>
+        <path d="M70 52 l1.5 4 4 1.5 -4 1.5 -1.5 4 -1.5 -4 -4 -1.5 4 -1.5z" fill="#FFF2C2"/>
+        <circle cx="92" cy="60" r="2" fill="#FFF2C2"/>
+      </svg>
+      <div>
+        <p class="eyebrow">A witch&rsquo;s apothecary garden</p>
+        <h1>Root <span class="amp">&amp;</span> Retort</h1>
+        <p class="lede">Every plant grows by the real clock, even while this page is closed. Harvest by moonlight, brew your herbs into tonics, and pour them over the next crop to quicken it.</p>
+      </div>
+    </div>
+    <div class="purse" aria-label="Coins"><span class="coin" aria-hidden="true"></span><span id="coins" class="num">0</span><span class="lbl">coins</span></div>
+  </header>
+
+  <main class="board">
+    <section aria-labelledby="h-garden">
+      <h2 id="h-garden">Moonlit beds</h2>
+      <div id="garden" class="beds"></div>
+    </section>
+    <div class="bench">
+      <section aria-labelledby="h-cauldron"><h2 id="h-cauldron">Cauldron</h2><div id="cauldron" class="panel"></div></section>
+      <section aria-labelledby="h-cross"><h2 id="h-cross">Crossing frame</h2><div id="cross" class="panel"></div></section>
+      <section aria-labelledby="h-satchel"><h2 id="h-satchel">Satchel</h2><div id="satchel" class="panel"></div></section>
+      <section aria-labelledby="h-stall"><h2 id="h-stall">Seed stall</h2><div id="stall" class="panel"></div></section>
+    </div>
+  </main>
+
+  <footer id="foot"></footer>
+</div>
+<div class="toast" aria-live="polite"><p id="say"></p></div>
+
+<script>
+(function () {
+  var SEC = 1000, MIN = 60 * SEC, HOUR = 60 * MIN;
+  var SAVE_KEY = 'root-and-retort-v1';
+  var STAGES = ['Seed', 'Sprout', 'Leafing', 'Budding', 'Ripe'];
+  var MAX_BEDS = 8, BED_COSTS = [40, 90, 200, 450];
+
+  var PLANTS = {
+    dewmoss:   { name: 'Dewmoss',     latin: 'Bryum rorans',     time: 2 * MIN,   color: '#7CC98A', bloom: 'tuft',    yield: [2, 3], cost: 0,   sell: 2,   back: 0.6 },
+    thistle:   { name: 'Thistleroot', latin: 'Carduus radix',    time: 6 * MIN,   color: '#9A6FD0', bloom: 'thistle', yield: [1, 3], cost: 6,   sell: 5,   back: 0.35 },
+    moonpetal: { name: 'Moonpetal',   latin: 'Selene alba',      time: 15 * MIN,  color: '#DDE6FF', bloom: 'petals',  yield: [1, 2], cost: 18,  sell: 16,  back: 0.35 },
+    emberfern: { name: 'Emberfern',   latin: 'Pteris ignis',     time: 40 * MIN,  color: '#E58A2E', bloom: 'fern',    yield: [1, 2], cost: 45,  sell: 40,  back: 0.35 },
+    gloomcap:  { name: 'Gloomcap',    latin: 'Agaricus umbra',   time: 90 * MIN,  color: '#7B6AD9', bloom: 'cap',     yield: [1, 2], cost: 110, sell: 95,  back: 0.35 },
+    lily:      { name: 'Eventide Lily', latin: 'Lilium vesper',  time: 6 * HOUR,  color: '#D86F9A', bloom: 'lily',    yield: [1, 2], cost: 220, sell: 240, back: 0.35 },
+    /* Hybrids: bred at the crossing frame, never sold as seed. */
+    bramble:      { name: 'Bramblewick',   latin: 'Rubus mixtus',        time: 10 * MIN,  color: '#C45C7A', bloom: 'thistle', yield: [1, 2], cost: 0, sell: 14,  back: 0.3, hybrid: true, parents: ['dewmoss', 'thistle'],     breed: 1 * MIN },
+    silverthistle:{ name: 'Silverthistle', latin: 'Carduus argenteus',   time: 25 * MIN,  color: '#B8C4D9', bloom: 'thistle', yield: [1, 2], cost: 0, sell: 38,  back: 0.3, hybrid: true, parents: ['thistle', 'moonpetal'],   breed: 2 * MIN },
+    starfern:     { name: 'Starfern',      latin: 'Pteris stellata',     time: 50 * MIN,  color: '#F2D36B', bloom: 'fern',    yield: [1, 2], cost: 0, sell: 90,  back: 0.3, hybrid: true, parents: ['moonpetal', 'emberfern'], breed: 4 * MIN },
+    cindercap:    { name: 'Cindercap',     latin: 'Agaricus cinis',      time: 2 * HOUR,  color: '#E0553C', bloom: 'cap',     yield: [1, 2], cost: 0, sell: 200, back: 0.3, hybrid: true, parents: ['emberfern', 'gloomcap'],  breed: 8 * MIN },
+    duskbloom:    { name: 'Duskbloom',     latin: 'Lilium crepuscula',   time: 8 * HOUR,  color: '#9B6BE8', bloom: 'lily',    yield: [1, 2], cost: 0, sell: 600, back: 0.3, hybrid: true, parents: ['gloomcap', 'lily'],       breed: 15 * MIN },
+    chronofern:   { name: 'Chronofern',    latin: 'Pteris tempus',       time: 3 * HOUR,  color: '#5FD0C8', bloom: 'fern',    yield: [1, 2], cost: 0, sell: 450, back: 0.3, hybrid: true, parents: ['starfern', 'cindercap'],  breed: 20 * MIN }
+  };
+  var POTIONS = {
+    sprout:    { name: 'Sprout Tonic',      recipe: { dewmoss: 2 },                brew: 20 * SEC,  type: 'boost',   mult: 2, dur: 5 * MIN,  scope: 'plot', sell: 8 },
+    fieldhand: { name: "Fieldhand's Brew",  recipe: { thistle: 1, dewmoss: 1 },    brew: 45 * SEC,  type: 'boost',   mult: 3, dur: 10 * MIN, scope: 'plot', sell: 22 },
+    moonmilk:  { name: 'Moonmilk',          recipe: { moonpetal: 1, thistle: 1 },  brew: 90 * SEC,  type: 'boost',   mult: 4, dur: 20 * MIN, scope: 'plot', sell: 55 },
+    mist:      { name: 'Greenhouse Mist',   recipe: { emberfern: 1, moonpetal: 1 }, brew: 2 * MIN,  type: 'boost',   mult: 3, dur: 15 * MIN, scope: 'all',  sell: 120 },
+    timedew:   { name: 'Time Dew',          recipe: { gloomcap: 1, emberfern: 1 }, brew: 3 * MIN,   type: 'instant', skip: 30 * MIN,         scope: 'plot', sell: 260 },
+    seasons:   { name: 'Elixir of Seasons', recipe: { lily: 1, moonpetal: 2 },     brew: 5 * MIN,   type: 'boost',   mult: 5, dur: 30 * MIN, scope: 'all',  sell: 600 },
+    quickgrass: { name: 'Quickgrass Tincture', recipe: { bramble: 1, dewmoss: 1 },        brew: 60 * SEC, type: 'boost',   mult: 5,  dur: 10 * MIN, scope: 'plot', sell: 45 },
+    hastewine:  { name: 'Hastewine',           recipe: { silverthistle: 1, bramble: 1 },   brew: 2 * MIN,  type: 'boost',   mult: 8,  dur: 15 * MIN, scope: 'plot', sell: 120 },
+    starsurge:  { name: 'Starlit Surge',       recipe: { starfern: 1, moonpetal: 1 },      brew: 3 * MIN,  type: 'boost',   mult: 6,  dur: 20 * MIN, scope: 'all',  sell: 260 },
+    cinderspur: { name: 'Cinder Spur',         recipe: { cindercap: 1, starfern: 1 },      brew: 5 * MIN,  type: 'boost',   mult: 10, dur: 15 * MIN, scope: 'plot', sell: 520 },
+    nectar:     { name: 'Duskbloom Nectar',    recipe: { duskbloom: 1, silverthistle: 1 }, brew: 8 * MIN,  type: 'boost',   mult: 12, dur: 20 * MIN, scope: 'all',  sell: 1100 },
+    hourglass:  { name: 'Hourglass Draught',   recipe: { chronofern: 1, gloomcap: 1 },     brew: 10 * MIN, type: 'instant', skip: 3 * HOUR,          scope: 'plot', sell: 900 }
+  };
+
+  var $ = function (s) { return document.querySelector(s); };
+  var storageOK = true;
+
+  function fresh() {
+    var now = Date.now(), plots = [];
+    for (var i = 0; i < 4; i++) plots.push(null);
+    plots[0] = { plant: 'dewmoss', progress: 70 * SEC, last: now, boost: null };
+    return { v: 1, coins: 20, seeds: { dewmoss: 3, thistle: 1 }, herbs: {}, potions: {}, plots: plots, cauldron: null, breeding: null, discovered: {}, last: now };
+  }
+  function load() {
+    try {
+      var raw = localStorage.getItem(SAVE_KEY);
+      if (!raw) return { state: fresh(), returning: false };
+      var s = JSON.parse(raw);
+      if (!s || s.v !== 1 || !Array.isArray(s.plots)) return { state: fresh(), returning: false };
+      s.plots = s.plots.map(function (p) { return p && PLANTS[p.plant] ? p : null; });
+      s.seeds = s.seeds || {}; s.herbs = s.herbs || {}; s.potions = s.potions || {};
+      if (s.cauldron && !POTIONS[s.cauldron.potion]) s.cauldron = null;
+      s.discovered = s.discovered || {};
+      if (s.breeding && !(PLANTS[s.breeding.hybrid] && PLANTS[s.breeding.a] && PLANTS[s.breeding.b])) s.breeding = null;
+      s.breeding = s.breeding || null;
+      return { state: s, returning: true };
+    } catch (e) { storageOK = false; return { state: fresh(), returning: false }; }
+  }
+  function save() {
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) {
+      if (storageOK) { storageOK = false; renderFoot(); }
+    }
+  }
+
+  var loaded = load();
+  var S = loaded.state;
+  var ui = { menu: null, confirmReset: false, pa: '', pb: '' };
+
+  /* ---------- growth maths ---------- */
+  function advance(p, now) {
+    if (!p) return;
+    var el = Math.max(0, now - p.last);
+    if (el > 0) {
+      var extra = 0;
+      if (p.boost) {
+        var bm = Math.max(0, Math.min(now, p.boost.until) - p.last);
+        extra = bm * (p.boost.mult - 1);
+        if (now >= p.boost.until) p.boost = null;
+      }
+      p.progress = Math.min(PLANTS[p.plant].time, p.progress + el + extra);
+    }
+    p.last = now;
+  }
+  function remainingMs(p, now) {
+    var need = PLANTS[p.plant].time - p.progress;
+    if (need <= 0) return 0;
+    if (!p.boost || p.boost.until <= now) return need;
+    var br = p.boost.until - now, m = p.boost.mult;
+    return need <= br * m ? need / m : br + (need - br * m);
+  }
+  function stageOf(p) {
+    var f = p.progress / PLANTS[p.plant].time;
+    return f >= 1 ? 4 : f < 0.2 ? 0 : f < 0.5 ? 1 : f < 0.8 ? 2 : 3;
+  }
+  function isGrowing(p) { return p && p.progress < PLANTS[p.plant].time; }
+
+  /* ---------- formatting ---------- */
+  function fmt(ms) {
+    var t = Math.max(0, Math.ceil(ms / 1000)), h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), s = t % 60;
+    if (h > 0) return h + 'h ' + String(m).padStart(2, '0') + 'm';
+    return m + ':' + String(s).padStart(2, '0');
+  }
+  function durLabel(ms) {
+    if (ms < MIN) return Math.round(ms / SEC) + ' sec';
+    if (ms < HOUR) return Math.round(ms / MIN) + ' min';
+    var h = ms / HOUR; return (Math.round(h * 10) / 10) + ' h';
+  }
+  function clock(ts) {
+    var d = new Date(ts), now = new Date();
+    var t = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    return d.toDateString() === now.toDateString() ? t : t + ' tomorrow';
+  }
+  function describe(q) {
+    if (q.type === 'instant') return 'Adds ' + durLabel(q.skip) + ' of growth to one bed';
+    return 'Growth ×' + q.mult + ' for ' + durLabel(q.dur) + ' on ' + (q.scope === 'all' ? 'every growing bed' : 'one bed');
+  }
+  function give(bag, id, n) { bag[id] = (bag[id] || 0) + n; }
+  function take(bag, id, n) { bag[id] = (bag[id] || 0) - n; if (bag[id] <= 0) delete bag[id]; }
+  function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+
+  var toastTimer;
+  function say(msg) {
+    var el = $('#say'); el.textContent = msg; el.classList.add('show');
+    clearTimeout(toastTimer); toastTimer = setTimeout(function () { el.classList.remove('show'); }, 3600);
+  }
+
+  /* ---------- plant drawings ---------- */
+  function leafPair(y, dx, rx, ry) {
+    return '<ellipse cx="' + (50 - dx) + '" cy="' + y + '" rx="' + rx + '" ry="' + ry + '" transform="rotate(-30 ' + (50 - dx) + ' ' + y + ')" fill="var(--stem)"/>' +
+           '<ellipse cx="' + (50 + dx) + '" cy="' + y + '" rx="' + rx + '" ry="' + ry + '" transform="rotate(30 ' + (50 + dx) + ' ' + y + ')" fill="var(--stem)"/>';
+  }
+  function bloomSVG(type, c, top) {
+    var s = '', k, a, x, y;
+    if (type === 'tuft') {
+      for (k = 0; k < 7; k++) { a = k * Math.PI * 2 / 7; s += '<circle cx="' + (50 + Math.cos(a) * 8).toFixed(1) + '" cy="' + (top + Math.sin(a) * 8).toFixed(1) + '" r="5.5" fill="' + c + '"/>'; }
+      s += '<circle cx="50" cy="' + top + '" r="6" fill="' + c + '"/><circle cx="50" cy="' + top + '" r="2.5" fill="var(--stem)"/>';
+    } else if (type === 'thistle') {
+      s += '<path d="M41 ' + (top + 4) + ' Q50 ' + (top + 17) + ' 59 ' + (top + 4) + ' Z" fill="var(--stem)"/>';
+      for (k = -3; k <= 3; k++) { a = k * 0.32; s += '<line x1="50" y1="' + (top + 2) + '" x2="' + (50 + Math.sin(a) * 16).toFixed(1) + '" y2="' + (top + 2 - Math.cos(a) * 16).toFixed(1) + '" stroke="' + c + '" stroke-width="2.4" stroke-linecap="round"/>'; }
+      s += '<circle cx="50" cy="' + (top + 2) + '" r="6" fill="' + c + '"/>';
+    } else if (type === 'petals') {
+      for (k = 0; k < 8; k++) { s += '<ellipse cx="50" cy="' + (top - 9) + '" rx="4.2" ry="9" transform="rotate(' + (k * 45) + ' 50 ' + top + ')" fill="' + c + '" stroke="var(--ink-soft)" stroke-width=".7"/>'; }
+      s += '<circle cx="50" cy="' + top + '" r="4" fill="#E3B84F"/>';
+    } else if (type === 'fern') {
+      for (k = -2; k <= 2; k++) { s += '<ellipse cx="50" cy="' + (top - 10) + '" rx="4.4" ry="14" transform="rotate(' + (k * 28) + ' 50 ' + (top + 4) + ')" fill="' + c + '"/>'; }
+    } else if (type === 'lily') {
+      s += '<path d="M50 ' + (top + 6) + ' C38 ' + (top + 4) + ' 34 ' + (top - 14) + ' 28 ' + (top - 20) + ' C40 ' + (top - 14) + ' 46 ' + (top - 14) + ' 50 ' + (top - 26) + ' C54 ' + (top - 14) + ' 60 ' + (top - 14) + ' 72 ' + (top - 20) + ' C66 ' + (top - 14) + ' 62 ' + (top + 4) + ' 50 ' + (top + 6) + ' Z" fill="' + c + '"/>';
+      for (k = -1; k <= 1; k++) { s += '<line x1="50" y1="' + (top + 2) + '" x2="' + (50 + k * 7) + '" y2="' + (top - 12) + '" stroke="#E3B84F" stroke-width="1.4" stroke-linecap="round"/><circle cx="' + (50 + k * 7) + '" cy="' + (top - 12) + '" r="1.8" fill="#E3B84F"/>'; }
+    }
+    return s;
+  }
+  function plantSVG(id, stage) {
+    var P = PLANTS[id], c = P.color, s = '';
+    s += '<ellipse cx="50" cy="101" rx="36" ry="8" fill="var(--soil)"/>';
+    if (stage === 0) {
+      s += '<ellipse cx="50" cy="96" rx="4" ry="2.6" fill="var(--seed)"/>';
+      return s;
+    }
+    if (P.bloom === 'cap') {
+      var sh = [0, 7, 15, 23, 31][stage], rx = [0, 5, 9, 13, 20][stage], ry = [0, 4, 6, 9, 13][stage], w = stage === 4 ? 9 : 6, base = 95 - sh;
+      s += '<rect x="' + (50 - w / 2) + '" y="' + base + '" width="' + w + '" height="' + sh + '" rx="2" fill="var(--stalk)"/>';
+      s += '<path d="M' + (50 - rx) + ' ' + base + ' A' + rx + ' ' + ry + ' 0 0 1 ' + (50 + rx) + ' ' + base + ' Z" fill="' + c + '"/>';
+      if (stage >= 3) {
+        s += '<circle cx="' + (50 - rx * 0.45) + '" cy="' + (base - ry * 0.5) + '" r="' + (rx * 0.14) + '" fill="#EDE9FF"/>';
+        s += '<circle cx="' + (50 + rx * 0.3) + '" cy="' + (base - ry * 0.65) + '" r="' + (rx * 0.12) + '" fill="#EDE9FF"/>';
+        s += '<circle cx="' + (50 + rx * 0.05) + '" cy="' + (base - ry * 0.25) + '" r="' + (rx * 0.1) + '" fill="#EDE9FF"/>';
+      }
+      return s;
+    }
+    var H = [0, 20, 40, 54, 60][stage], top = 95 - H;
+    s += '<line x1="50" y1="95" x2="50" y2="' + top + '" stroke="var(--stem)" stroke-width="3" stroke-linecap="round"/>';
+    if (stage === 1) s += leafPair(top + 6, 7, 6, 3);
+    if (stage === 2) s += leafPair(top + 8, 9, 9, 4) + leafPair(top + 22, 9, 9, 4);
+    if (stage >= 3) s += leafPair(top + 12, 11, 11, 5) + leafPair(top + 26, 11, 11, 5) + leafPair(top + 40, 11, 11, 5);
+    if (stage === 3) s += '<circle cx="50" cy="' + top + '" r="5" fill="' + c + '" stroke="var(--ink-soft)" stroke-width=".6"/>';
+    if (stage === 4) s += bloomSVG(P.bloom, c, top);
+    return s;
+  }
+  var SOIL_ONLY = '<ellipse cx="50" cy="101" rx="36" ry="8" fill="var(--soil)"/><ellipse cx="42" cy="97" rx="3" ry="1.6" fill="var(--seed)" opacity=".5"/><ellipse cx="58" cy="99" rx="2.4" ry="1.3" fill="var(--seed)" opacity=".5"/>';
+
+  /* ---------- views ---------- */
+  function gardenHTML() {
+    var out = '', now = Date.now();
+    S.plots.forEach(function (p, i) {
+      if (!p) { out += emptyBedHTML(i); return; }
+      var P = PLANTS[p.plant], st = stageOf(p), ripe = st === 4;
+      var h = '<article class="bed"><div class="bed-top"><span class="plate">Bed ' + (i + 1) + '</span>' +
+        '<span class="chip' + (ripe ? ' ripe' : '') + '">' + STAGES[st] + '</span></div>' +
+        '<div class="art' + (p.boost ? ' is-boost' : '') + (ripe ? ' is-ripe' : '') + '" aria-hidden="true"><svg viewBox="0 0 100 110">' + plantSVG(p.plant, st) + '</svg></div>' +
+        '<div><div class="name">' + P.name + '</div><div class="latin">' + P.latin + '</div></div>' +
+        '<div class="rule" role="progressbar" aria-label="Growth of bed ' + (i + 1) + '"><i data-bar="' + i + '"></i></div>' +
+        '<div class="time"><span class="num" data-time="' + i + '"></span><small data-eta="' + i + '"></small></div>';
+      if (p.boost) h += '<div class="boost"><span data-boost="' + i + '"></span></div>';
+      if (ui.menu && ui.menu.i === i && ui.menu.kind === 'potion') {
+        h += '<div class="menu">';
+        var any = false;
+        Object.keys(POTIONS).forEach(function (id) {
+          var q = POTIONS[id];
+          if (q.scope !== 'plot' || !S.potions[id]) return;
+          any = true;
+          h += '<button class="btn potion" data-act="use" data-id="' + id + '" data-i="' + i + '"><span>' + q.name + ' ×' + S.potions[id] + '</span><small>' + (q.type === 'instant' ? '+' + durLabel(q.skip) : '×' + q.mult + ' · ' + durLabel(q.dur)) + '</small></button>';
+        });
+        if (!any) h += '<p class="muted">No single-bed potions yet. Brew some at the cauldron.</p>';
+        else if (p.boost) h += '<p class="muted">A new tonic replaces the one already working here.</p>';
+        h += '<button class="btn small" data-act="close-menu">Close</button></div>';
+      } else if (ripe) {
+        h += '<div class="actions"><button class="btn primary" data-act="harvest" data-i="' + i + '">Harvest</button></div>';
+      } else {
+        var has = Object.keys(POTIONS).some(function (id) { return POTIONS[id].scope === 'plot' && S.potions[id]; });
+        h += '<div class="actions"><button class="btn potion" data-act="open-potion" data-i="' + i + '"' + (has ? '' : ' disabled title="Brew a tonic first"') + '>Pour a tonic</button></div>';
+      }
+      out += h + '</article>';
+    });
+    if (S.plots.length < MAX_BEDS) {
+      var cost = BED_COSTS[S.plots.length - 4];
+      out += '<article class="bed locked"><div class="bed-top"><span class="plate">Bed ' + (S.plots.length + 1) + '</span></div>' +
+        '<div class="art" aria-hidden="true"><svg viewBox="0 0 100 110"><ellipse cx="50" cy="101" rx="36" ry="8" fill="var(--soil)" opacity=".4"/></svg></div>' +
+        '<p class="muted">Overgrown. Clear it to plant here.</p>' +
+        '<div class="actions"><button class="btn" data-act="buy-bed"' + (S.coins < cost ? ' disabled' : '') + '>Clear for ' + cost + ' coins</button></div></article>';
+    }
+    return out;
+  }
+  function emptyBedHTML(i) {
+    var h = '<article class="bed empty"><div class="bed-top"><span class="plate">Bed ' + (i + 1) + '</span><span class="chip">Empty</span></div>' +
+      '<div class="art" aria-hidden="true"><svg viewBox="0 0 100 110">' + SOIL_ONLY + '</svg></div>';
+    if (ui.menu && ui.menu.i === i && ui.menu.kind === 'plant') {
+      h += '<div class="menu">';
+      var any = false;
+      Object.keys(PLANTS).forEach(function (id) {
+        if (!S.seeds[id]) return;
+        any = true;
+        h += '<button class="btn" data-act="plant" data-id="' + id + '" data-i="' + i + '"><span>' + PLANTS[id].name + ' ×' + S.seeds[id] + '</span><small>' + durLabel(PLANTS[id].time) + '</small></button>';
+      });
+      if (!any) h += '<p class="muted">No seeds left. Pick some up at the stall.</p>';
+      h += '<button class="btn small" data-act="close-menu">Close</button></div>';
+    } else {
+      h += '<div class="actions"><button class="btn primary" data-act="open-plant" data-i="' + i + '">Plant a seed</button></div>';
+    }
+    return h + '</article>';
+  }
+
+  function cauldronHTML() {
+    var c = S.cauldron, now = Date.now(), status, cls = '';
+    if (c) {
+      var q = POTIONS[c.potion];
+      if (now >= c.end) {
+        status = '<div class="name">' + q.name + ' is ready</div><div class="actions"><button class="btn primary" data-act="collect">Bottle it</button></div>';
+      } else {
+        cls = ' brewing';
+        status = '<div class="name">Brewing ' + q.name + '</div><div class="rule"><i data-cbar></i></div><div class="time"><span class="num" data-ctime></span></div>';
+      }
+    } else {
+      status = '<div class="name">The cauldron is cold</div><p class="muted">Pick a recipe below. Brewing takes a little real time.</p>';
+    }
+    var h = '<div class="cauldron' + cls + '"><svg viewBox="0 0 90 84" aria-hidden="true">' +
+      '<g class="flame"><path d="M26 83 C22 75 29 71 27 63 C35 68 38 77 33 83Z" fill="#FF9F5A"/><path d="M42 83 C38 73 46 69 43 59 C53 66 55 76 50 83Z" fill="#FFB86B"/><path d="M58 83 C55 76 61 73 59 66 C66 71 67 78 63 83Z" fill="#FF9F5A"/><path d="M45 83 C43 78 47 75 45 70 C50 74 51 79 49 83Z" fill="#FFE08A"/></g>' +
+      '<path class="steam s1" d="M34 26 C28 18 40 14 34 4" fill="none" stroke="var(--tincture)" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<path class="steam s2" d="M46 26 C40 18 52 14 46 2" fill="none" stroke="var(--brew)" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<path class="steam s3" d="M58 26 C52 18 64 14 58 4" fill="none" stroke="var(--tincture)" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<rect x="22" y="68" width="7" height="9" rx="2" fill="#150C28" stroke="var(--line-hi)" stroke-width="1.2"/><rect x="61" y="68" width="7" height="9" rx="2" fill="#150C28" stroke="var(--line-hi)" stroke-width="1.2"/>' +
+      '<path d="M8 38 C0 38 0 48 10 48" fill="none" stroke="var(--line-hi)" stroke-width="2.4" stroke-linecap="round"/><path d="M82 38 C90 38 90 48 80 48" fill="none" stroke="var(--line-hi)" stroke-width="2.4" stroke-linecap="round"/>' +
+      '<path d="M12 36 H78 C78 62 66 72 45 72 C24 72 12 62 12 36 Z" fill="#0B0716" stroke="var(--line-hi)" stroke-width="1.5"/>' +
+      '<path d="M22 46 C24 56 30 62 38 65" fill="none" stroke="rgba(183,155,255,.35)" stroke-width="2" stroke-linecap="round"/>' +
+      '<rect x="7" y="30" width="76" height="9" rx="4.5" fill="#150C28" stroke="var(--line-hi)" stroke-width="1.5"/>' +
+      '<ellipse cx="45" cy="34" rx="33" ry="3.2" fill="var(--brew)" opacity="' + (c ? .95 : .25) + '"/>' +
+      '<circle class="bubble b1" cx="32" cy="31" r="3"/><circle class="bubble b2" cx="46" cy="31" r="2.4"/><circle class="bubble b3" cx="58" cy="31" r="3.2"/>' +
+      '</svg><div>' + status + '</div></div>';
+    Object.keys(POTIONS).forEach(function (id) {
+      var q = POTIONS[id], can = true;
+      var ings = Object.keys(q.recipe).map(function (hid) {
+        var n = q.recipe[hid], have = S.herbs[hid] || 0;
+        if (have < n) can = false;
+        return '<span class="ing ' + (have >= n ? 'ok' : 'short') + '">' + n + '× ' + (PLANTS[hid].hybrid && !S.discovered[hid] ? 'Unknown hybrid' : PLANTS[hid].name) + ' <small>(' + have + ')</small></span>';
+      }).join('');
+      h += '<div class="row"><div class="grow"><div class="name">' + q.name + '</div><div class="fx">' + describe(q) + '</div><div class="ings">' + ings + '</div></div>' +
+        '<div class="actions"><button class="btn potion" data-act="brew" data-id="' + id + '"' + (can && !c ? '' : ' disabled') + '>Brew · ' + durLabel(q.brew) + '</button></div></div>';
+    });
+    return h;
+  }
+
+  function findHybrid(a, b) {
+    var found = null;
+    Object.keys(PLANTS).forEach(function (id) {
+      var P = PLANTS[id];
+      if (P.hybrid && ((P.parents[0] === a && P.parents[1] === b) || (P.parents[0] === b && P.parents[1] === a))) found = id;
+    });
+    return found;
+  }
+  function selectHTML(id, label, val) {
+    var o = '<option value="">Choose a herb</option>';
+    Object.keys(PLANTS).forEach(function (hid) {
+      if (!(S.herbs[hid] > 0)) return;
+      o += '<option value="' + hid + '"' + (val === hid ? ' selected' : '') + '>' + PLANTS[hid].name + ' ×' + S.herbs[hid] + '</option>';
+    });
+    return '<label class="fld"><span class="plate">' + label + '</span><select class="sel" id="' + id + '">' + o + '</select></label>';
+  }
+  function crossHTML() {
+    var br = S.breeding, h = '';
+    if (br) {
+      h += '<div class="cross-state"><div class="name">' + PLANTS[br.a].name + ' × ' + PLANTS[br.b].name + '</div>';
+      if (Date.now() >= br.end) h += '<p class="muted">The cross has set seed.</p><div class="actions"><button class="btn primary" data-act="collect-cross">Collect seed</button></div>';
+      else h += '<div class="rule"><i data-bbar></i></div><div class="time"><span class="num" data-btime></span></div>';
+      h += '</div>';
+    } else {
+      var kinds = Object.keys(PLANTS).filter(function (id) { return S.herbs[id] > 0; }).length;
+      if (ui.pa && !(S.herbs[ui.pa] > 0)) ui.pa = '';
+      if (ui.pb && !(S.herbs[ui.pb] > 0)) ui.pb = '';
+      if (kinds < 2) h += '<div class="row"><p class="muted">Cross two different herbs to grow a hybrid. You need two kinds in your satchel first.</p></div>';
+      else h += '<div class="cross">' + selectHTML('pa', 'First parent', ui.pa) + selectHTML('pb', 'Second parent', ui.pb) + '</div>' +
+        '<div class="actions" style="padding-bottom:12px"><button class="btn primary" data-act="cross">Cross them</button></div>';
+    }
+    h += '<p class="sub">Hybrid grimoire</p>';
+    Object.keys(PLANTS).forEach(function (id) {
+      var P = PLANTS[id]; if (!P.hybrid) return;
+      if (S.discovered[id]) {
+        h += '<div class="row"><div class="grow"><div class="name">' + P.name + '</div><div class="fx">' + PLANTS[P.parents[0]].name + ' × ' + PLANTS[P.parents[1]].name +
+          ' · grows in ' + durLabel(P.time) + ' · herb sells ' + P.sell + ' · seeds held ' + (S.seeds[id] || 0) + '</div></div></div>';
+      } else {
+        var p0 = PLANTS[P.parents[0]], hint = p0.hybrid && !S.discovered[P.parents[0]] ? 'a hybrid you haven’t found yet' : p0.name;
+        h += '<div class="row"><div class="grow"><div class="name">Unknown hybrid</div><div class="fx">One parent is ' + hint + '. Crossing takes ' + durLabel(P.breed) + '.</div></div></div>';
+      }
+    });
+    return h;
+  }
+
+  function satchelHTML() {
+    var h = '', herbIds = Object.keys(PLANTS).filter(function (id) { return S.herbs[id]; });
+    var potIds = Object.keys(POTIONS).filter(function (id) { return S.potions[id]; });
+    var growing = S.plots.some(isGrowing);
+    h += '<p class="sub">Herbs</p>';
+    if (!herbIds.length) h += '<div class="row"><p class="muted">Nothing yet. Harvest a ripe bed to fill your satchel.</p></div>';
+    herbIds.forEach(function (id) {
+      var P = PLANTS[id], n = S.herbs[id];
+      h += '<div class="row"><div class="grow"><div class="name">' + P.name + ' <span class="num">×' + n + '</span></div><div class="fx">Sells for ' + P.sell + ' each</div></div>' +
+        '<div class="actions"><button class="btn small" data-act="sell" data-kind="herb" data-id="' + id + '" data-n="1">Sell 1</button>' +
+        (n > 1 ? '<button class="btn small" data-act="sell" data-kind="herb" data-id="' + id + '" data-n="' + n + '">Sell all</button>' : '') + '</div></div>';
+    });
+    h += '<p class="sub">Potions</p>';
+    if (!potIds.length) h += '<div class="row"><p class="muted">No potions bottled. Brew one at the cauldron.</p></div>';
+    potIds.forEach(function (id) {
+      var q = POTIONS[id], n = S.potions[id];
+      h += '<div class="row"><div class="grow"><div class="name">' + q.name + ' <span class="num">×' + n + '</span></div><div class="fx">' + describe(q) + '</div></div><div class="actions">' +
+        (q.scope === 'all' ? '<button class="btn potion small" data-act="use" data-id="' + id + '" data-i="all"' + (growing ? '' : ' disabled') + '>Use on all beds</button>' : '') +
+        '<button class="btn small" data-act="sell" data-kind="potion" data-id="' + id + '" data-n="1">Sell · ' + q.sell + '</button></div></div>';
+    });
+    return h + '<div style="height:8px"></div>';
+  }
+
+  function stallHTML() {
+    var h = '';
+    Object.keys(PLANTS).forEach(function (id) {
+      if (PLANTS[id].hybrid) return;
+      var P = PLANTS[id], own = S.seeds[id] || 0;
+      h += '<div class="row"><div class="grow"><div class="name">' + P.name + '</div><div class="fx">Grows in ' + durLabel(P.time) + ' · herb sells ' + P.sell + ' · you hold ' + own + '</div></div>' +
+        '<div class="actions"><button class="btn small" data-act="buy" data-id="' + id + '"' + (S.coins < P.cost ? ' disabled' : '') + '>' + (P.cost === 0 ? 'Take 1 (free)' : 'Buy · ' + P.cost) + '</button></div></div>';
+    });
+    return h;
+  }
+
+  function renderFoot() {
+    var h = '<p>' + (storageOK ? 'Progress saves in this browser only.' : '<span class="warn">This view can’t save progress, so it will reset when you leave.</span>') + '</p>' +
+      '<button class="btn small" data-act="reset">' + (ui.confirmReset ? 'Click again to erase everything' : 'Start over') + '</button>';
+    $('#foot').innerHTML = h;
+  }
+  function renderAll() {
+    $('#coins').textContent = S.coins.toLocaleString();
+    $('#garden').innerHTML = gardenHTML();
+    $('#cauldron').innerHTML = cauldronHTML();
+    $('#cross').innerHTML = crossHTML();
+    $('#satchel').innerHTML = satchelHTML();
+    $('#stall').innerHTML = stallHTML();
+    renderFoot();
+    updateDynamic(Date.now());
+  }
+  function updateDynamic(now) {
+    document.querySelectorAll('[data-bar]').forEach(function (el) {
+      var p = S.plots[+el.dataset.bar]; if (p) el.style.width = (p.progress / PLANTS[p.plant].time * 100).toFixed(1) + '%';
+    });
+    document.querySelectorAll('[data-time]').forEach(function (el) {
+      var p = S.plots[+el.dataset.time]; if (!p) return;
+      var r = remainingMs(p, now);
+      el.textContent = r <= 0 ? 'Ready' : fmt(r) + ' left';
+    });
+    document.querySelectorAll('[data-eta]').forEach(function (el) {
+      var p = S.plots[+el.dataset.eta]; if (!p) return;
+      var r = remainingMs(p, now);
+      el.textContent = r <= 0 ? '' : 'ripe ' + clock(now + r);
+    });
+    document.querySelectorAll('[data-boost]').forEach(function (el) {
+      var p = S.plots[+el.dataset.boost]; if (p && p.boost) el.textContent = '×' + p.boost.mult + ' tonic · ' + fmt(p.boost.until - now) + ' left';
+    });
+    if (S.cauldron) {
+      var q = POTIONS[S.cauldron.potion], span = S.cauldron.end - S.cauldron.start;
+      var cb = document.querySelector('[data-cbar]'), ct = document.querySelector('[data-ctime]');
+      if (cb) cb.style.width = Math.min(100, (now - S.cauldron.start) / span * 100).toFixed(1) + '%';
+      if (ct) ct.textContent = fmt(S.cauldron.end - now) + ' left';
+    }
+    if (S.breeding) {
+      var bspan = S.breeding.end - S.breeding.start;
+      var bb = document.querySelector('[data-bbar]'), bt = document.querySelector('[data-btime]');
+      if (bb) bb.style.width = Math.min(100, (now - S.breeding.start) / bspan * 100).toFixed(1) + '%';
+      if (bt) bt.textContent = fmt(S.breeding.end - now) + ' left';
+    }
+  }
+
+  /* ---------- actions ---------- */
+  function syncPlots() { var now = Date.now(); S.plots.forEach(function (p) { advance(p, now); }); return now; }
+
+  var actions = {
+    'open-plant': function (b) { ui.menu = { i: +b.dataset.i, kind: 'plant' }; },
+    'open-potion': function (b) { ui.menu = { i: +b.dataset.i, kind: 'potion' }; },
+    'close-menu': function () { ui.menu = null; },
+    plant: function (b) {
+      var i = +b.dataset.i, id = b.dataset.id;
+      if (S.plots[i] || !S.seeds[id]) return;
+      take(S.seeds, id, 1);
+      S.plots[i] = { plant: id, progress: 0, last: Date.now(), boost: null };
+      ui.menu = null; say(PLANTS[id].name + ' planted in bed ' + (i + 1) + '. Ripe around ' + clock(Date.now() + PLANTS[id].time) + '.');
+    },
+    harvest: function (b) {
+      var i = +b.dataset.i; syncPlots();
+      var p = S.plots[i]; if (!p || isGrowing(p)) return;
+      var P = PLANTS[p.plant], n = rnd(P.yield[0], P.yield[1]);
+      give(S.herbs, p.plant, n);
+      var msg = 'Harvested ' + n + ' ' + P.name + '.';
+      if (Math.random() < P.back) { give(S.seeds, p.plant, 1); msg += ' One seed saved.'; }
+      S.plots[i] = null; say(msg);
+    },
+    use: function (b) {
+      var id = b.dataset.id, q = POTIONS[id], target = b.dataset.i;
+      if (!S.potions[id]) return;
+      var now = syncPlots();
+      var idx = target === 'all' ? S.plots.map(function (p, i) { return isGrowing(p) ? i : -1; }).filter(function (i) { return i >= 0; }) : (isGrowing(S.plots[+target]) ? [+target] : []);
+      if (!idx.length) { say('Nothing is growing there.'); return; }
+      idx.forEach(function (i) {
+        var p = S.plots[i];
+        if (q.type === 'instant') p.progress = Math.min(PLANTS[p.plant].time, p.progress + q.skip);
+        else p.boost = { mult: q.mult, until: now + q.dur };
+      });
+      take(S.potions, id, 1); ui.menu = null;
+      say(q.name + (idx.length > 1 ? ' poured on ' + idx.length + ' beds.' : ' poured on bed ' + (idx[0] + 1) + '.'));
+    },
+    brew: function (b) {
+      var id = b.dataset.id, q = POTIONS[id];
+      if (S.cauldron) return;
+      for (var h in q.recipe) if ((S.herbs[h] || 0) < q.recipe[h]) return;
+      for (var h2 in q.recipe) take(S.herbs, h2, q.recipe[h2]);
+      var now = Date.now(); S.cauldron = { potion: id, start: now, end: now + q.brew };
+      say('Brewing ' + q.name + '. Ready in ' + durLabel(q.brew) + '.');
+    },
+    collect: function () {
+      var c = S.cauldron; if (!c || Date.now() < c.end) return;
+      give(S.potions, c.potion, 1); say(POTIONS[c.potion].name + ' bottled.'); S.cauldron = null;
+    },
+    cross: function () {
+      var a = ui.pa, b = ui.pb;
+      if (S.breeding) return;
+      if (!a || !b) { say('Choose two herbs to cross.'); return; }
+      if (a === b) { say('Pick two different plants.'); return; }
+      if (!(S.herbs[a] > 0) || !(S.herbs[b] > 0)) { say('You need one of each herb.'); return; }
+      var hid = findHybrid(a, b);
+      if (!hid) { say('Those two won’t cross. Nothing was used up.'); return; }
+      take(S.herbs, a, 1); take(S.herbs, b, 1);
+      var now = Date.now();
+      S.breeding = { hybrid: hid, a: a, b: b, start: now, end: now + PLANTS[hid].breed };
+      ui.pa = ''; ui.pb = '';
+      say('The cross took. Check the frame in ' + durLabel(PLANTS[hid].breed) + '.');
+    },
+    'collect-cross': function () {
+      var br = S.breeding; if (!br || Date.now() < br.end) return;
+      var P = PLANTS[br.hybrid], n = 1 + (Math.random() < 0.3 ? 1 : 0), first = !S.discovered[br.hybrid];
+      give(S.seeds, br.hybrid, n); S.discovered[br.hybrid] = true; S.breeding = null;
+      say(first ? 'New plant discovered: ' + P.name + '! ' + n + (n > 1 ? ' seeds' : ' seed') + ' collected.' : P.name + ': ' + n + (n > 1 ? ' seeds' : ' seed') + ' collected.');
+    },
+    sell: function (b) {
+      var kind = b.dataset.kind, id = b.dataset.id, n = Math.min(+b.dataset.n, (kind === 'herb' ? S.herbs : S.potions)[id] || 0);
+      if (n <= 0) return;
+      var each = kind === 'herb' ? PLANTS[id].sell : POTIONS[id].sell;
+      take(kind === 'herb' ? S.herbs : S.potions, id, n);
+      S.coins += each * n; say('Sold ' + n + ' for ' + (each * n) + ' coins.');
+    },
+    buy: function (b) {
+      var id = b.dataset.id, P = PLANTS[id];
+      if (P.hybrid || S.coins < P.cost) return;
+      S.coins -= P.cost; give(S.seeds, id, 1); say(P.name + ' seed added to your satchel.');
+    },
+    'buy-bed': function () {
+      var cost = BED_COSTS[S.plots.length - 4];
+      if (S.plots.length >= MAX_BEDS || S.coins < cost) return;
+      S.coins -= cost; S.plots.push(null); say('Bed ' + S.plots.length + ' cleared.');
+    },
+    reset: function () {
+      if (!ui.confirmReset) { ui.confirmReset = true; return; }
+      S = fresh(); ui = { menu: null, confirmReset: false, pa: '', pb: '' }; lastSig = signature(Date.now()); say('Fresh start.');
+    }
+  };
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-act]');
+    if (!b || b.disabled) return;
+    var act = b.dataset.act;
+    if (act !== 'reset') ui.confirmReset = false;
+    if (actions[act]) { actions[act](b); renderAll(); save(); }
+  });
+
+  document.addEventListener('change', function (e) {
+    if (e.target.id === 'pa') ui.pa = e.target.value;
+    if (e.target.id === 'pb') ui.pb = e.target.value;
+  });
+
+  /* ---------- clock ---------- */
+  function signature(now) {
+    return S.plots.map(function (p) { return p ? stageOf(p) + (p.boost ? 'b' : '') : 'e'; }).join(',') +
+      '|' + (S.cauldron ? (now >= S.cauldron.end ? 'done' : 'brew') : '-') +
+      '|' + (S.breeding ? (now >= S.breeding.end ? 'done' : 'brew') : '-');
+  }
+  var lastSig = '', ticks = 0;
+  function tick() {
+    var now = syncPlots(); S.last = now;
+    var sig = signature(now);
+    if (sig !== lastSig) { lastSig = sig; renderAll(); save(); }
+    else updateDynamic(now);
+    if (++ticks % 5 === 0) save();
+  }
+
+  /* ---------- start ---------- */
+  var away = Date.now() - (S.last || Date.now());
+  tick();
+  if (loaded.returning && away > 60 * SEC) {
+    var ripe = S.plots.filter(function (p) { return p && !isGrowing(p); }).length;
+    say('Welcome back. The garden grew for ' + fmt(away).replace(/^(\d+):(\d+)$/, '$1 min') + (ripe ? ' and ' + ripe + (ripe === 1 ? ' bed is' : ' beds are') + ' ripe.' : '.'));
+  }
+  setInterval(tick, 1000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) tick(); });
+  window.addEventListener('pagehide', save);
+})();
+</script>
+
+</body></html>
